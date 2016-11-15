@@ -443,11 +443,14 @@ typedef NS_ENUM(NSInteger, ViewTapState)
         self.progressBar.frame = CGRectMake(touch.x-progressBarSize/2, progressY-5.5, progressBarSize, progressBarSize);
         self.progressView.frame = CGRectMake(0,progressY, touch.x, ProgressH);
         
-        // 获得当前播放时间
-        float current = CMTimeGetSeconds([self.player currentTime]);
+        // 当前frame宽度 * 总时长 / 总frame长度 = 当前时间
+        CGFloat duration = CMTimeGetSeconds([self.player.currentItem duration]);
+        
+        int time = touch.x * duration / CGRectGetWidth(self.progressContainer.frame) ;
+        
         
         // 更新时间
-        self.currentTimeLabel.text = [LXControlView durationStringWithTime:(NSInteger) current];
+        self.currentTimeLabel.text = [LXControlView durationStringWithTime:(NSInteger) time];
         
     }else if(pan.state== UIGestureRecognizerStateEnded)
     {
