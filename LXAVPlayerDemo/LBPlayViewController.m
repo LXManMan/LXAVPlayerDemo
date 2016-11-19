@@ -12,7 +12,8 @@
 @interface LBPlayViewController ()<LXControlViewDelegate>
 @property(nonatomic,strong)LXControlView *contolView;
 @end
-
+static NSString *string = @"http://wvideo.spriteapp.cn/video/2016/0328/56f8ec01d9bfe_wpd.mp4";
+//@"http://baobab.cdn.wandoujia.com/14464539635131446103741576t_x264.mp4"
 @implementation LBPlayViewController
 -(void)dealloc
 {
@@ -22,35 +23,35 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.contolView =[[LXControlView alloc]initWithFrame:CGRectMake(0, 0, Device_Height, Device_Width) videoUrl:@"http://baobab.cdn.wandoujia.com/14464539635131446103741576t_x264.mp4" title:@"啦啦啦"];
+    [self.navigationController setNavigationBarHidden:YES];
+    self.contolView =[[LXControlView alloc]initWithFrame:CGRectMake(0, 0, Device_Width, Device_Width *9/16) videoUrl:string title:@"啦啦啦"];
     self.contolView.delegate = self;
     [self.view addSubview:self.contolView];
+    self.view.backgroundColor =[UIColor whiteColor];
     
+    
+    
+}
+-(BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 -(void)dismissVC
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)playEnd
 {
     
 }
-// 是否支持自动转屏
-- (BOOL)shouldAutorotate
-{
-    return YES;
-}
-
-// 支持哪些屏幕方向
+// 只支持两个方向旋转
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations
 {
-    return UIInterfaceOrientationMaskLandscape;
+    return UIInterfaceOrientationMaskPortrait |UIInterfaceOrientationMaskLandscapeLeft |UIInterfaceOrientationMaskLandscapeRight;
 }
-
-// 默认的屏幕方向（当前ViewController必须是通过模态出来的UIViewController（模态带导航的无效）方式展现出来的，才会调用这个方法）
-- (UIInterfaceOrientation)preferredInterfaceOrientationForPresentation
+-(BOOL)shouldAutorotate
 {
-    return UIInterfaceOrientationLandscapeLeft;
+    return YES;
 }
 
 @end

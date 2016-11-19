@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7720B7E51DE0454E00E05C25 /* 全屏.png in Resources */ = {isa = PBXBuildFile; fileRef = 7720B7E41DE0454E00E05C25 /* 全屏.png */; };
 		7799BC371DD947330094AE24 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC361DD947330094AE24 /* main.m */; };
 		7799BC3A1DD947330094AE24 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC391DD947330094AE24 /* AppDelegate.m */; };
 		7799BC3D1DD947330094AE24 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC3C1DD947330094AE24 /* ViewController.m */; };
@@ -16,9 +17,6 @@
 		7799BC501DD947330094AE24 /* LXAVPlayerDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC4F1DD947330094AE24 /* LXAVPlayerDemoTests.m */; };
 		7799BC5B1DD947330094AE24 /* LXAVPlayerDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC5A1DD947330094AE24 /* LXAVPlayerDemoUITests.m */; };
 		7799BC6A1DD94D6D0094AE24 /* LXPlayerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC691DD94D6D0094AE24 /* LXPlayerModel.m */; };
-		7799BC771DD9905B0094AE24 /* UINavigationController+ZFPlayerRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC701DD9905B0094AE24 /* UINavigationController+ZFPlayerRotation.m */; };
-		7799BC781DD9905B0094AE24 /* UITabBarController+ZFPlayerRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC721DD9905B0094AE24 /* UITabBarController+ZFPlayerRotation.m */; };
-		7799BC7A1DD9905B0094AE24 /* UIViewController+ZFPlayerRotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC761DD9905B0094AE24 /* UIViewController+ZFPlayerRotation.m */; };
 		7799BC7E1DD991A80094AE24 /* LxButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC7D1DD991A80094AE24 /* LxButton.m */; };
 		7799BC811DD991B50094AE24 /* UILabel+LXLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC801DD991B50094AE24 /* UILabel+LXLabel.m */; };
 		7799BC841DD991BA0094AE24 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC831DD991BA0094AE24 /* UIView+Frame.m */; };
@@ -86,6 +84,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		7720B7E41DE0454E00E05C25 /* 全屏.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "全屏.png"; sourceTree = "<group>"; };
 		7799BC321DD947330094AE24 /* LXAVPlayerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LXAVPlayerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7799BC361DD947330094AE24 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		7799BC381DD947330094AE24 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -104,12 +103,6 @@
 		7799BC5C1DD947330094AE24 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7799BC681DD94D6D0094AE24 /* LXPlayerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXPlayerModel.h; sourceTree = "<group>"; };
 		7799BC691DD94D6D0094AE24 /* LXPlayerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXPlayerModel.m; sourceTree = "<group>"; };
-		7799BC6F1DD9905B0094AE24 /* UINavigationController+ZFPlayerRotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZFPlayerRotation.h"; sourceTree = "<group>"; };
-		7799BC701DD9905B0094AE24 /* UINavigationController+ZFPlayerRotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZFPlayerRotation.m"; sourceTree = "<group>"; };
-		7799BC711DD9905B0094AE24 /* UITabBarController+ZFPlayerRotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBarController+ZFPlayerRotation.h"; sourceTree = "<group>"; };
-		7799BC721DD9905B0094AE24 /* UITabBarController+ZFPlayerRotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBarController+ZFPlayerRotation.m"; sourceTree = "<group>"; };
-		7799BC751DD9905B0094AE24 /* UIViewController+ZFPlayerRotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZFPlayerRotation.h"; sourceTree = "<group>"; };
-		7799BC761DD9905B0094AE24 /* UIViewController+ZFPlayerRotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZFPlayerRotation.m"; sourceTree = "<group>"; };
 		7799BC7B1DD990710094AE24 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		7799BC7C1DD991A80094AE24 /* LxButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LxButton.h; sourceTree = "<group>"; };
 		7799BC7D1DD991A80094AE24 /* LxButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LxButton.m; sourceTree = "<group>"; };
@@ -264,12 +257,6 @@
 		7799BC6E1DD9905B0094AE24 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				7799BC6F1DD9905B0094AE24 /* UINavigationController+ZFPlayerRotation.h */,
-				7799BC701DD9905B0094AE24 /* UINavigationController+ZFPlayerRotation.m */,
-				7799BC711DD9905B0094AE24 /* UITabBarController+ZFPlayerRotation.h */,
-				7799BC721DD9905B0094AE24 /* UITabBarController+ZFPlayerRotation.m */,
-				7799BC751DD9905B0094AE24 /* UIViewController+ZFPlayerRotation.h */,
-				7799BC761DD9905B0094AE24 /* UIViewController+ZFPlayerRotation.m */,
 				7799BC7F1DD991B50094AE24 /* UILabel+LXLabel.h */,
 				7799BC801DD991B50094AE24 /* UILabel+LXLabel.m */,
 				7799BC821DD991BA0094AE24 /* UIView+Frame.h */,
@@ -285,6 +272,7 @@
 			children = (
 				7799BCA41DD9B0EF0094AE24 /* DLNAImage */,
 				7799BC8C1DD9A4180094AE24 /* collectBtn1.png */,
+				7720B7E41DE0454E00E05C25 /* 全屏.png */,
 				7799BC8D1DD9A4180094AE24 /* collectBtn2.png */,
 				7799BC8E1DD9A4180094AE24 /* pasueBtn.png */,
 				7799BC8F1DD9A4180094AE24 /* playBtn.png */,
@@ -474,6 +462,7 @@
 				7799BC9D1DD9A4180094AE24 /* progressbarlight.png in Resources */,
 				7799BCCC1DD9B0EF0094AE24 /* search5.png in Resources */,
 				7799BCD51DD9B0EF0094AE24 /* lubi_loading.gif in Resources */,
+				7720B7E51DE0454E00E05C25 /* 全屏.png in Resources */,
 				7799BC991DD9A4180094AE24 /* collectBtn2.png in Resources */,
 				7799BC9C1DD9A4180094AE24 /* progressbar.png in Resources */,
 				7799BC9A1DD9A4180094AE24 /* pasueBtn.png in Resources */,
@@ -523,15 +512,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7799BC7A1DD9905B0094AE24 /* UIViewController+ZFPlayerRotation.m in Sources */,
 				7799BC871DD9960E0094AE24 /* LBPlayViewController.m in Sources */,
 				7799BC811DD991B50094AE24 /* UILabel+LXLabel.m in Sources */,
 				7799BC6A1DD94D6D0094AE24 /* LXPlayerModel.m in Sources */,
 				7799BC3D1DD947330094AE24 /* ViewController.m in Sources */,
 				7799BC3A1DD947330094AE24 /* AppDelegate.m in Sources */,
-				7799BC771DD9905B0094AE24 /* UINavigationController+ZFPlayerRotation.m in Sources */,
 				7799BC7E1DD991A80094AE24 /* LxButton.m in Sources */,
-				7799BC781DD9905B0094AE24 /* UITabBarController+ZFPlayerRotation.m in Sources */,
 				7799BC841DD991BA0094AE24 /* UIView+Frame.m in Sources */,
 				7799BC8A1DD99BCE0094AE24 /* LXControlView.m in Sources */,
 				7799BC371DD947330094AE24 /* main.m in Sources */,
@@ -774,6 +760,7 @@
 				7799BC611DD947330094AE24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7799BC621DD947330094AE24 /* Build configuration list for PBXNativeTarget "LXAVPlayerDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -782,6 +769,7 @@
 				7799BC641DD947330094AE24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		7799BC651DD947330094AE24 /* Build configuration list for PBXNativeTarget "LXAVPlayerDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -790,6 +778,7 @@
 				7799BC671DD947330094AE24 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
