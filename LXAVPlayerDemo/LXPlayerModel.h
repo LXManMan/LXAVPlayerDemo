@@ -10,11 +10,9 @@
 #import <UIKit/UIKit.h>
 @interface LXPlayerModel : NSObject
 /** 视频标题 */
-@property (nonatomic, copy  ) NSString     *title;
+@property (nonatomic, copy  ) NSString     *videotitle;
 /** 视频URL */
-@property (nonatomic, strong) NSURL        *videoURL;
-/** 视频封面本地图片 */
-@property (nonatomic, strong) UIImage      *placeholderImage;
-/** 从xx秒开始播放视频(默认0) */
-@property (nonatomic, assign) NSInteger    seekTime;
+@property (nonatomic, copy) NSString        *videoURL;
+
+
 @end

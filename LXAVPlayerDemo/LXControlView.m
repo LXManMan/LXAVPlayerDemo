@@ -7,9 +7,13 @@
 //
 
 #import "LXControlView.h"
+
 #define Font(CGFloat) [UIFont systemFontOfSize:(CGFloat)]
 #define LXCommonViewH 60
 #define ProgressH 4
+#define DragSpeed 300
+#define DelaySeconds 4
+#define playBtnH 32
 // 播放器的几种状态
 typedef NS_ENUM(NSInteger, LXPlayerState) {
     LXPlayerStateFailed,     // 播放失败
@@ -24,6 +28,11 @@ typedef NS_ENUM(NSInteger, ViewTapState)
     viewTapShow,
     viewTapHide
 };
+// 枚举值，包含水平移动方向和垂直移动方向
+typedef NS_ENUM(NSInteger, PanDirection){
+    PanDirectionHorizontalMoved, // 横向移动
+    PanDirectionVerticalMoved    // 纵向移动
+};
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 @interface LXControlView()<UIGestureRecognizerDelegate>
@@ -32,7 +41,9 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 @property(nonatomic,strong)LxButton *backBtn;
 @property(nonatomic,strong)UILabel *titleLabel;
 @property(nonatomic,strong)LxButton *startBtn;
-
+@property(nonatomic, strong)LxButton *gotoNextVideo;            // 下一集
+@property(nonatomic,assign)NSInteger playIndex;
+@property(nonatomic,strong)NSArray *videoModelArray;
 /**底部视图*/
 
 @property(nonatomic, strong)UIView         *downView;
@@ -72,6 +83,9 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 @property(nonatomic,copy)NSString *videoUrl;
 @property(nonatomic,copy)NSString *videoTitle;
 @property(nonatomic,assign)UIInterfaceOrientation orientation;
+/** 定义一个实例变量，保存枚举值 */
+@property (nonatomic, assign) PanDirection           panDirection;
+@property(nonatomic,assign)BOOL enterPlayground;
 
 @end
 
@@ -91,14 +105,17 @@ typedef NS_ENUM(NSInteger, ViewTapState)
     NSLog(@"%@释放了",self.class);
 }
 
--(instancetype)initWithFrame:(CGRect)frame videoUrl:(NSString *)videoUrl title:(NSString *)videoTitle
+-(instancetype)initWithFrame:(CGRect)frame videoModelArray:(NSArray *)videoModelArray
 {
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor =[UIColor blackColor];
         self.frame = frame;
-        self.videoUrl = videoUrl;
-        self.videoTitle = videoTitle;
+        self.playIndex =0;
+        self.videoModelArray = videoModelArray;
+        LXPlayerModel *model = self.videoModelArray[self.playIndex];
+        self.videoUrl = model.videoURL;
+        self.videoTitle = model.videotitle;
         viewWidth = self.frame.size.width;
         viewHeight = self.frame.size.height;
         progressBarSize = 15;
@@ -121,6 +138,7 @@ typedef NS_ENUM(NSInteger, ViewTapState)
     
     [self addSubview:self.downView];
     [self.downView addSubview:self.startBtn];
+    [self.downView addSubview:self.gotoNextVideo];
     [self.downView addSubview:self.progressContainer];
     
     [self.progressContainer addSubview:self.progressShadow];
@@ -131,7 +149,7 @@ typedef NS_ENUM(NSInteger, ViewTapState)
     [self.downView addSubview:self.gangLabel];
     [self.downView addSubview:self.sumTimeLabel];
     [self.downView addSubview:self.fullScreenBtn];
-    
+    [self.fullScreenBtn addTarget:self action:@selector(fullScreenBtnAction:) forControlEvents:UIControlEventTouchUpOutside];
     [self addSubview:self.volume];
     [self addSubview:self.volumeSlider];
     
@@ -155,7 +173,65 @@ typedef NS_ENUM(NSInteger, ViewTapState)
     //添加点击手势
     self.tap=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(viewTapAction:)];
     [self addGestureRecognizer:self.tap];
-    [self performSelector:@selector(hideView) withObject:nil afterDelay:2];
+    [self performSelector:@selector(hideView) withObject:nil afterDelay:DelaySeconds];
+}
+-(void)fullScreenBtnAction:(LxButton *)fullScreenBtn{
+    
+        fullScreenBtn.selected = !fullScreenBtn.selected;
+        self.isFullScreen = fullScreenBtn.selected;
+        if (fullScreenBtn.selected) {
+            if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+                
+                SEL selector = NSSelectorFromString(@"setOrientation:");
+                
+                NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+                
+                [invocation setSelector:selector];
+                
+                [invocation setTarget:[UIDevice currentDevice]];
+                
+                int val = UIInterfaceOrientationLandscapeRight;
+                
+                [invocation setArgument:&val atIndex:2];
+                
+                [invocation invoke];
+                
+                //                    设置横屏
+                self.frame = CGRectMake(0, 0, Device_Width, Device_Height);
+                viewWidth = Device_Width;
+                viewHeight = Device_Height;
+                [self layoutSubviews];
+            }
+            
+        }else
+        {
+            if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+                
+                SEL selector = NSSelectorFromString(@"setOrientation:");
+                
+                NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+                
+                [invocation setSelector:selector];
+                
+                [invocation setTarget:[UIDevice currentDevice]];
+                
+                int val = UIInterfaceOrientationPortrait;
+                [invocation setArgument:&val atIndex:2];
+                
+                [invocation invoke];
+                
+                //设置竖屏
+                self.frame = CGRectMake(0, 0, Device_Width, Device_Width *9/16);
+                viewWidth = Device_Width;
+                viewHeight = Device_Width *9/16;
+                
+                [self layoutSubviews];
+            }
+            
+        }
+        
+
+
 }
 #pragma mark---点击隐藏或者显示--
 -(void)viewTapAction:(UITapGestureRecognizer *)tap
@@ -175,7 +251,7 @@ typedef NS_ENUM(NSInteger, ViewTapState)
         self.topView.hidden =  self.downView.hidden = self.volume.hidden = NO;
         
         
-        [self performSelector:@selector(hideView) withObject:nil afterDelay:2];
+        [self performSelector:@selector(hideView) withObject:nil afterDelay:DelaySeconds];
         
         
     }else
@@ -390,31 +466,41 @@ typedef NS_ENUM(NSInteger, ViewTapState)
             // 给sumTime初值
             CMTime time       = self.player.currentTime;
             sumTime      = time.value/time.timescale;
+            self.panDirection = PanDirectionHorizontalMoved;
         }
 
     }
     if (pan.state ==UIGestureRecognizerStateChanged ) {
         
         self.isDragged = YES;
-        // 每次滑动需要叠加时间
-        sumTime += veloctyPoint.x/200;
-        // 需要限定sumTime的范围
-        CMTime totalTime           = self.playerItem.duration;
-        CGFloat totalMovieDuration = (CGFloat)totalTime.value/totalTime.timescale;
-        if (sumTime > totalMovieDuration) {sumTime = totalMovieDuration;}
-        if (sumTime < 0) { sumTime = 0; }
-        BOOL style = false;
-        if (veloctyPoint.x > 0) { style = YES; }
-        if (veloctyPoint.x < 0) { style = NO; }
-        if (veloctyPoint.x == 0) { return; }
-        
-        CGFloat  draggedValue  = (CGFloat)sumTime/(CGFloat)totalMovieDuration;
-        
-        self.progressBar.frame = CGRectMake( draggedValue * CGRectGetWidth(self.progressContainer.frame)-progressBarSize/2, progressY-5.5, progressBarSize, progressBarSize);
-        
-        self.progressView.frame = CGRectMake(0,progressY,  draggedValue * CGRectGetWidth(self.progressContainer.frame), ProgressH);
-        
-        self.currentTimeLabel.text = [LXControlView durationStringWithTime:(NSInteger) sumTime];
+        switch (self.panDirection) {
+            case PanDirectionHorizontalMoved:
+                // 每次滑动需要叠加时间
+                sumTime += veloctyPoint.x/DragSpeed;
+                // 需要限定sumTime的范围
+                CMTime totalTime           = self.playerItem.duration;
+                CGFloat totalMovieDuration = (CGFloat)totalTime.value/totalTime.timescale;
+                if (sumTime > totalMovieDuration) {sumTime = totalMovieDuration;}
+                if (sumTime < 0) { sumTime = 0; }
+                BOOL style = false;
+                if (veloctyPoint.x > 0) { style = YES; }
+                if (veloctyPoint.x < 0) { style = NO; }
+                if (veloctyPoint.x == 0) { return; }
+                
+                CGFloat  draggedValue  = (CGFloat)sumTime/(CGFloat)totalMovieDuration;
+                
+                self.progressBar.frame = CGRectMake( draggedValue * CGRectGetWidth(self.progressContainer.frame)-progressBarSize/2, progressY-5.5, progressBarSize, progressBarSize);
+                
+                self.progressView.frame = CGRectMake(0,progressY,  draggedValue * CGRectGetWidth(self.progressContainer.frame), ProgressH);
+                
+                self.currentTimeLabel.text = [LXControlView durationStringWithTime:(NSInteger) sumTime];
+                self.sumTimeLabel.text = [LXControlView durationStringWithTime:(NSInteger)totalMovieDuration];
+                break;
+            case PanDirectionVerticalMoved:
+                break;
+            default:
+                break;
+        }
         
     }else if(pan.state== UIGestureRecognizerStateEnded)
     {
@@ -510,35 +596,48 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 #pragma mark---通知方法与观察着实现---
 -(void)moviePlayDidEnd:(NSNotification *)notification
 {
-    [self resetLayer];
+    if (++self.playIndex < self.videoModelArray.count) {
+        
+        LXPlayerModel *model =self.videoModelArray[self.playIndex];
+        // 接收标题
+        self.titleLabel.text = model.videotitle;
+        self.videoUrl = model.videoURL;
+        [self configLXPlayer];
+    }
+    
 }
 -(void)appDidEnterBackground
 {
+    self.enterPlayground = NO;
     [_player pause];
-    if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-        
-        SEL selector = NSSelectorFromString(@"setOrientation:");
-        
-        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-        
-        [invocation setSelector:selector];
-        
-        [invocation setTarget:[UIDevice currentDevice]];
-        
-        int val = UIInterfaceOrientationPortrait;
-        
-        [invocation setArgument:&val atIndex:2];
-        
-        [invocation invoke];
-        
-       
-    }
-
     
 }
 -(void)appDidEnterPlayground
 {
+    self.enterPlayground = YES;
     [_player play];
+    if (self.isFullScreen) {
+        if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
+            
+            SEL selector = NSSelectorFromString(@"setOrientation:");
+            
+            NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
+            
+            [invocation setSelector:selector];
+            
+            [invocation setTarget:[UIDevice currentDevice]];
+            
+            int val = UIInterfaceOrientationLandscapeRight;
+            
+            [invocation setArgument:&val atIndex:2];
+            
+            [invocation invoke];
+            
+            
+        }
+
+    }
+    
     
 }
 #pragma mark - 观察者、通知
@@ -576,13 +675,10 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 }
 -(void)onDeviceOrientationChange:(NSNotification *)notification
 {
-    NSLog(@"%@",notification);
+//    NSLog(@"%@",notification);
+    
+  
     UIDevice *device = notification.object;
-//    UIInterfaceOrientationUnknown            = UIDeviceOrientationUnknown,
-//    UIInterfaceOrientationPortrait           = UIDeviceOrientationPortrait,
-//    UIInterfaceOrientationPortraitUpsideDown = UIDeviceOrientationPortraitUpsideDown,
-//    UIInterfaceOrientationLandscapeLeft      = UIDeviceOrientationLandscapeRight,
-//    UIInterfaceOrientationLandscapeRight     = UIDeviceOrientationLandscapeLeft
 
     if (device.orientation == UIInterfaceOrientationUnknown ||device.orientation ==  UIInterfaceOrientationPortraitUpsideDown  ) {
         return;
@@ -682,10 +778,10 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 -(void)allUIBackOriginalInfo
 {
     self.progressBar.frame = CGRectMake(-progressBarSize/2, progressY-5.5, progressBarSize, progressBarSize);
-    self.progressView.frame = CGRectMake(0,progressY, viewWidth - CGRectGetMaxX(self.startBtn.frame) - 140, ProgressH);
+    self.progressView.frame = CGRectMake(0,progressY, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 140, ProgressH);
     
-    self.progressShadow.frame = CGRectMake(0, progressY, viewWidth - CGRectGetMaxX(self.startBtn.frame) - 140, ProgressH);
-    self.progressCache.frame = CGRectMake(0,progressY, viewWidth - CGRectGetMaxX(self.startBtn.frame) - 140, ProgressH);
+    self.progressShadow.frame = CGRectMake(0, progressY, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 140, ProgressH);
+    self.progressCache.frame = CGRectMake(0,progressY, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 140, ProgressH);
     self.currentTimeLabel.text = @"00:00";
     self.sumTimeLabel.text = @"00:00";
     self.titleLabel.text = @"";
@@ -695,6 +791,9 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 // 音量方法
 - (void)volumeAction:(UISlider *)volume
 {
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(hideView) object:nil];
+    self.downView.hidden = self.topView.hidden = self.volume.hidden = NO;
+
     // 更改系统的音量
     self.volumeSlider.value = volume.value;
     oldVolume = volume.value;
@@ -732,6 +831,7 @@ typedef NS_ENUM(NSInteger, ViewTapState)
         __weak LXControlView *weakSelf = self;
         [_backBtn addClickBlock:^(UIButton *button) {
             [weakSelf resetLayer];
+            [weakSelf.fullScreenBtn setSelected:NO];
             [weakSelf.delegate dismissVC];
             if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
                 
@@ -768,16 +868,39 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 {
     if (!_startBtn) {
         
-        _startBtn =[LxButton LXButtonWithTitle:nil titleFont:nil Image:[UIImage imageNamed:@"playBtn"] backgroundImage:nil backgroundColor:nil titleColor:nil frame:CGRectMake(10, (LXCommonViewH - 40)/2, 40, 40)];
+        _startBtn =[LxButton LXButtonWithTitle:nil titleFont:nil Image:[UIImage imageNamed:@"playBtn"] backgroundImage:nil backgroundColor:nil titleColor:nil frame:CGRectMake(10, (LXCommonViewH - playBtnH)/2, playBtnH, playBtnH)];
           [_startBtn setImage:[UIImage imageNamed:@"pasueBtn"] forState:UIControlStateSelected];
+//        _startBtn.backgroundColor =[UIColor redColor];
         
     }
     return _startBtn;
 }
+-(LxButton *)gotoNextVideo
+{
+    if (!_gotoNextVideo) {
+        _gotoNextVideo =[LxButton LXButtonWithTitle:nil titleFont:Font(16.0) Image:[UIImage imageNamed:@"nextVideo"] backgroundImage:nil backgroundColor:nil titleColor:nil frame:CGRectMake(CGRectGetMaxX(self.startBtn.frame)+2, (LXCommonViewH - playBtnH)/2, playBtnH, playBtnH)];
+        __weak LXControlView *weakSelf =self;
+        
+        [_gotoNextVideo addClickBlock:^(UIButton *button) {
+            [weakSelf resetLayer];
+            if (++weakSelf.playIndex < weakSelf.videoModelArray.count) {
+                
+                LXPlayerModel *model =weakSelf.videoModelArray[weakSelf.playIndex];
+                // 接收标题
+                weakSelf.titleLabel.text = model.videotitle;
+                weakSelf.videoUrl = model.videoURL;
+                [weakSelf configLXPlayer];
+            }
+        }];
+        
+    }
+    return _gotoNextVideo;
+}
+
 -(UIView *)progressContainer
 {
     if (!_progressContainer) {
-        _progressContainer =[[UIView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.startBtn.frame)+10, (LXCommonViewH - 40)/2, viewWidth - CGRectGetMaxX(self.startBtn.frame) - 200, 40)];
+        _progressContainer =[[UIView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.gotoNextVideo.frame)+10, (LXCommonViewH - 40)/2, viewWidth - CGRectGetMaxX(self.startBtn.frame) - 200, 40)];
 //        _progressContainer.backgroundColor =[UIColor brownColor];
     }
     return _progressContainer;
@@ -865,67 +988,9 @@ typedef NS_ENUM(NSInteger, ViewTapState)
 {
     if (!_fullScreenBtn) {
         _fullScreenBtn =[LxButton LXButtonWithTitle:nil titleFont:nil Image:[UIImage imageNamed:@"全屏"] backgroundImage:nil backgroundColor:nil titleColor:nil frame:CGRectMake(CGRectGetMaxX(self.sumTimeLabel.frame) , 14, 32, 32)];
-//        _fullScreenBtn.backgroundColor =[UIColor redColor];
         [_fullScreenBtn setImage:[UIImage imageNamed:@"全屏"] forState:UIControlStateSelected];
-        __weak LXControlView *weakSelf= self;
-        [_fullScreenBtn addClickBlock:^(UIButton *button) {
-             button.selected = !button.selected;
-            weakSelf.isFullScreen = button.selected;
-            if (button.selected) {
-                if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-                    
-                    SEL selector = NSSelectorFromString(@"setOrientation:");
-                    
-                    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-                    
-                    [invocation setSelector:selector];
-                    
-                    [invocation setTarget:[UIDevice currentDevice]];
-                    
-                    int val = UIInterfaceOrientationLandscapeRight;
-                    
-                    [invocation setArgument:&val atIndex:2];
-                    
-                    [invocation invoke];
-                    
-                    weakSelf.orientation = UIInterfaceOrientationLandscapeRight;
-//                    设置横屏
-                    weakSelf.frame = CGRectMake(0, 0, Device_Width, Device_Height);
-                    viewWidth = Device_Width;
-                    viewHeight = Device_Height;
-                    [weakSelf layoutSubviews];
-                }
-                
-            }else
-            {
-                if ([[UIDevice currentDevice] respondsToSelector:@selector(setOrientation:)]) {
-                    
-                    SEL selector = NSSelectorFromString(@"setOrientation:");
-                    
-                    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDevice instanceMethodSignatureForSelector:selector]];
-                    
-                    [invocation setSelector:selector];
-                    
-                    [invocation setTarget:[UIDevice currentDevice]];
-                    
-                    int val = UIInterfaceOrientationPortrait;
-                    weakSelf.orientation = UIInterfaceOrientationPortrait;
-                    [invocation setArgument:&val atIndex:2];
-                    
-                    [invocation invoke];
-                    
-                    //设置竖屏
-                                        weakSelf.frame = CGRectMake(0, 0, Device_Width, Device_Width *9/16);
-                    viewWidth = Device_Width;
-                    viewHeight = Device_Width *9/16;
-
-                     [weakSelf layoutSubviews];
-                }
-                
-            }
-           
-        }];
-    }
+      
+           }
     return _fullScreenBtn;
 }
 
@@ -981,7 +1046,9 @@ typedef NS_ENUM(NSInteger, ViewTapState)
      _downView.frame =CGRectMake(0, viewHeight - LXCommonViewH, viewWidth, LXCommonViewH);
     _backBtn.frame= CGRectMake(0, 10, 80, 40);
     _titleLabel.frame= CGRectMake(100, (LXCommonViewH - 40)/2, viewWidth -200, 40) ;
-    _progressContainer .frame =CGRectMake(CGRectGetMaxX(self.startBtn.frame)+10, (LXCommonViewH - 40)/2, viewWidth - CGRectGetMaxX(self.startBtn.frame) - 200, 40);
+    _startBtn .frame= CGRectMake(10, (LXCommonViewH - playBtnH)/2, playBtnH, playBtnH);
+     _gotoNextVideo.frame= CGRectMake(CGRectGetMaxX(self.startBtn.frame)+2, (LXCommonViewH - playBtnH)/2, playBtnH, playBtnH);
+    _progressContainer .frame =CGRectMake(CGRectGetMaxX(self.gotoNextVideo.frame)+10, (LXCommonViewH - 40)/2, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 200, 40);
     _progressShadow.frame =CGRectMake(0, progressY, CGRectGetWidth(self.progressContainer.frame) , ProgressH);
     
     _progressView.frame = CGRectMake(0,progressY, 0, ProgressH);

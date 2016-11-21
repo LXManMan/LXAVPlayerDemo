@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LXPlayerModel.h"
 @protocol LXControlViewDelegate<NSObject>
 -(void)dismissVC;
 -(void)playEnd;
 @end
 
 @interface LXControlView : UIView
--(instancetype)initWithFrame:(CGRect)frame videoUrl:(NSString *)videoUrl title:(NSString *)title;
+-(instancetype)initWithFrame:(CGRect)frame videoModelArray:(NSArray *)videoModelArray;
 @property(nonatomic,assign)id<LXControlViewDelegate>delegate;
 @end

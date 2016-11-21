@@ -24,8 +24,6 @@
 		7799BC8A1DD99BCE0094AE24 /* LXControlView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7799BC891DD99BCE0094AE24 /* LXControlView.m */; };
 		7799BC981DD9A4180094AE24 /* collectBtn1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BC8C1DD9A4180094AE24 /* collectBtn1.png */; };
 		7799BC991DD9A4180094AE24 /* collectBtn2.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BC8D1DD9A4180094AE24 /* collectBtn2.png */; };
-		7799BC9A1DD9A4180094AE24 /* pasueBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BC8E1DD9A4180094AE24 /* pasueBtn.png */; };
-		7799BC9B1DD9A4180094AE24 /* playBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BC8F1DD9A4180094AE24 /* playBtn.png */; };
 		7799BC9C1DD9A4180094AE24 /* progressbar.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BC901DD9A4180094AE24 /* progressbar.png */; };
 		7799BC9D1DD9A4180094AE24 /* progressbarlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BC911DD9A4180094AE24 /* progressbarlight.png */; };
 		7799BC9E1DD9A4180094AE24 /* progressVolume.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BC921DD9A4180094AE24 /* progressVolume.png */; };
@@ -64,6 +62,9 @@
 		7799BCDF1DD9B0EF0094AE24 /* 马上就来-7.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BCC11DD9B0EF0094AE24 /* 马上就来-7.png */; };
 		7799BCE01DD9B0EF0094AE24 /* 马上就来-8.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BCC21DD9B0EF0094AE24 /* 马上就来-8.png */; };
 		7799BCE11DD9B0EF0094AE24 /* 马上就来-9.png in Resources */ = {isa = PBXBuildFile; fileRef = 7799BCC31DD9B0EF0094AE24 /* 马上就来-9.png */; };
+		77CBDD7B1DE2A54600D4E796 /* pasueBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CBDD791DE2A54600D4E796 /* pasueBtn.png */; };
+		77CBDD7C1DE2A54600D4E796 /* playBtn.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CBDD7A1DE2A54600D4E796 /* playBtn.png */; };
+		77CBDD7E1DE2A59F00D4E796 /* nextVideo.png in Resources */ = {isa = PBXBuildFile; fileRef = 77CBDD7D1DE2A59F00D4E796 /* nextVideo.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -116,8 +117,6 @@
 		7799BC891DD99BCE0094AE24 /* LXControlView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXControlView.m; sourceTree = "<group>"; };
 		7799BC8C1DD9A4180094AE24 /* collectBtn1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = collectBtn1.png; sourceTree = "<group>"; };
 		7799BC8D1DD9A4180094AE24 /* collectBtn2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = collectBtn2.png; sourceTree = "<group>"; };
-		7799BC8E1DD9A4180094AE24 /* pasueBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pasueBtn.png; sourceTree = "<group>"; };
-		7799BC8F1DD9A4180094AE24 /* playBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playBtn.png; sourceTree = "<group>"; };
 		7799BC901DD9A4180094AE24 /* progressbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progressbar.png; sourceTree = "<group>"; };
 		7799BC911DD9A4180094AE24 /* progressbarlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progressbarlight.png; sourceTree = "<group>"; };
 		7799BC921DD9A4180094AE24 /* progressVolume.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = progressVolume.png; sourceTree = "<group>"; };
@@ -156,6 +155,9 @@
 		7799BCC11DD9B0EF0094AE24 /* 马上就来-7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "马上就来-7.png"; sourceTree = "<group>"; };
 		7799BCC21DD9B0EF0094AE24 /* 马上就来-8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "马上就来-8.png"; sourceTree = "<group>"; };
 		7799BCC31DD9B0EF0094AE24 /* 马上就来-9.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "马上就来-9.png"; sourceTree = "<group>"; };
+		77CBDD791DE2A54600D4E796 /* pasueBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pasueBtn.png; sourceTree = "<group>"; };
+		77CBDD7A1DE2A54600D4E796 /* playBtn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = playBtn.png; sourceTree = "<group>"; };
+		77CBDD7D1DE2A59F00D4E796 /* nextVideo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nextVideo.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,8 +218,8 @@
 				7799BC881DD99BCE0094AE24 /* LXControlView.h */,
 				7799BC891DD99BCE0094AE24 /* LXControlView.m */,
 				7799BC681DD94D6D0094AE24 /* LXPlayerModel.h */,
-				7799BC8B1DD9A4180094AE24 /* Image */,
 				7799BC691DD94D6D0094AE24 /* LXPlayerModel.m */,
+				7799BC8B1DD9A4180094AE24 /* Image */,
 				7799BC7B1DD990710094AE24 /* PrefixHeader.pch */,
 				7799BC3E1DD947330094AE24 /* Main.storyboard */,
 				7799BC411DD947330094AE24 /* Assets.xcassets */,
@@ -274,8 +276,6 @@
 				7799BC8C1DD9A4180094AE24 /* collectBtn1.png */,
 				7720B7E41DE0454E00E05C25 /* 全屏.png */,
 				7799BC8D1DD9A4180094AE24 /* collectBtn2.png */,
-				7799BC8E1DD9A4180094AE24 /* pasueBtn.png */,
-				7799BC8F1DD9A4180094AE24 /* playBtn.png */,
 				7799BC901DD9A4180094AE24 /* progressbar.png */,
 				7799BC911DD9A4180094AE24 /* progressbarlight.png */,
 				7799BC921DD9A4180094AE24 /* progressVolume.png */,
@@ -294,11 +294,14 @@
 				7799BCA51DD9B0EF0094AE24 /* BusinessLoadingImages */,
 				7799BCB31DD9B0EF0094AE24 /* dlna_exp1.png */,
 				7799BCB41DD9B0EF0094AE24 /* dlna_exp2.png */,
+				77CBDD7D1DE2A59F00D4E796 /* nextVideo.png */,
 				7799BCB51DD9B0EF0094AE24 /* dlna_exp3.png */,
 				7799BCB61DD9B0EF0094AE24 /* dlna_explain.png */,
 				7799BCB71DD9B0EF0094AE24 /* lubi_loading.gif */,
 				7799BCB81DD9B0EF0094AE24 /* point.png */,
 				7799BCB91DD9B0EF0094AE24 /* scan_delete.png */,
+				77CBDD791DE2A54600D4E796 /* pasueBtn.png */,
+				77CBDD7A1DE2A54600D4E796 /* playBtn.png */,
 				7799BCBA1DD9B0EF0094AE24 /* uncheck.png */,
 				7799BCBB1DD9B0EF0094AE24 /* 马上就来-1.png */,
 				7799BCBC1DD9B0EF0094AE24 /* 马上就来-2.png */,
@@ -444,16 +447,17 @@
 			files = (
 				7799BCCD1DD9B0EF0094AE24 /* search6.png in Resources */,
 				7799BC451DD947330094AE24 /* LaunchScreen.storyboard in Resources */,
+				77CBDD7C1DE2A54600D4E796 /* playBtn.png in Resources */,
 				7799BCD61DD9B0EF0094AE24 /* point.png in Resources */,
 				7799BCD91DD9B0EF0094AE24 /* 马上就来-1.png in Resources */,
 				7799BCDE1DD9B0EF0094AE24 /* 马上就来-6.png in Resources */,
+				77CBDD7B1DE2A54600D4E796 /* pasueBtn.png in Resources */,
 				7799BC981DD9A4180094AE24 /* collectBtn1.png in Resources */,
 				7799BCDF1DD9B0EF0094AE24 /* 马上就来-7.png in Resources */,
 				7799BCCB1DD9B0EF0094AE24 /* search4.png in Resources */,
 				7799BCA31DD9A4180094AE24 /* volume2.png in Resources */,
 				7799BCD01DD9B0EF0094AE24 /* search9.png in Resources */,
 				7799BCA01DD9A4180094AE24 /* shareBtn.png in Resources */,
-				7799BC9B1DD9A4180094AE24 /* playBtn.png in Resources */,
 				7799BCA11DD9A4180094AE24 /* tableBtn.png in Resources */,
 				7799BCA21DD9A4180094AE24 /* volume1.png in Resources */,
 				7799BCE01DD9B0EF0094AE24 /* 马上就来-8.png in Resources */,
@@ -465,7 +469,6 @@
 				7720B7E51DE0454E00E05C25 /* 全屏.png in Resources */,
 				7799BC991DD9A4180094AE24 /* collectBtn2.png in Resources */,
 				7799BC9C1DD9A4180094AE24 /* progressbar.png in Resources */,
-				7799BC9A1DD9A4180094AE24 /* pasueBtn.png in Resources */,
 				7799BCD31DD9B0EF0094AE24 /* dlna_exp3.png in Resources */,
 				7799BCD71DD9B0EF0094AE24 /* scan_delete.png in Resources */,
 				7799BCDB1DD9B0EF0094AE24 /* 马上就来-3.png in Resources */,
@@ -479,6 +482,7 @@
 				7799BCC51DD9B0EF0094AE24 /* search1.png in Resources */,
 				7799BC401DD947330094AE24 /* Main.storyboard in Resources */,
 				7799BCC71DD9B0EF0094AE24 /* search11.png in Resources */,
+				77CBDD7E1DE2A59F00D4E796 /* nextVideo.png in Resources */,
 				7799BCD21DD9B0EF0094AE24 /* dlna_exp2.png in Resources */,
 				7799BCC81DD9B0EF0094AE24 /* search12.png in Resources */,
 				7799BC9F1DD9A4180094AE24 /* reportBtn.png in Resources */,
