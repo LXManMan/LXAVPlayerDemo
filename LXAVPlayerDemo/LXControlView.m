@@ -142,14 +142,15 @@ typedef NS_ENUM(NSInteger, PanDirection){
     [self.downView addSubview:self.progressContainer];
     
     [self.progressContainer addSubview:self.progressShadow];
-    [self.progressContainer addSubview:self.progressView];
     [self.progressContainer addSubview:self.progressCache];
+    [self.progressContainer addSubview:self.progressView];
+    
     [self.progressContainer addSubview:self.progressBar];
     [self.downView addSubview:self.currentTimeLabel];
     [self.downView addSubview:self.gangLabel];
     [self.downView addSubview:self.sumTimeLabel];
     [self.downView addSubview:self.fullScreenBtn];
-    [self.fullScreenBtn addTarget:self action:@selector(fullScreenBtnAction:) forControlEvents:UIControlEventTouchUpOutside];
+    [self.fullScreenBtn addTarget:self action:@selector(fullScreenBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.volume];
     [self addSubview:self.volumeSlider];
     
@@ -596,6 +597,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 #pragma mark---通知方法与观察着实现---
 -(void)moviePlayDidEnd:(NSNotification *)notification
 {
+    [self resetLayer];
     if (++self.playIndex < self.videoModelArray.count) {
         
         LXPlayerModel *model =self.videoModelArray[self.playIndex];
@@ -778,10 +780,10 @@ typedef NS_ENUM(NSInteger, PanDirection){
 -(void)allUIBackOriginalInfo
 {
     self.progressBar.frame = CGRectMake(-progressBarSize/2, progressY-5.5, progressBarSize, progressBarSize);
-    self.progressView.frame = CGRectMake(0,progressY, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 140, ProgressH);
+    self.progressView.frame = CGRectMake(0,progressY, 0, ProgressH);
     
-    self.progressShadow.frame = CGRectMake(0, progressY, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 140, ProgressH);
-    self.progressCache.frame = CGRectMake(0,progressY, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 140, ProgressH);
+    self.progressShadow.frame = CGRectMake(0, progressY, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 200, ProgressH);
+    self.progressCache.frame = CGRectMake(0,progressY, 0, ProgressH);
     self.currentTimeLabel.text = @"00:00";
     self.sumTimeLabel.text = @"00:00";
     self.titleLabel.text = @"";
@@ -900,7 +902,7 @@ typedef NS_ENUM(NSInteger, PanDirection){
 -(UIView *)progressContainer
 {
     if (!_progressContainer) {
-        _progressContainer =[[UIView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.gotoNextVideo.frame)+10, (LXCommonViewH - 40)/2, viewWidth - CGRectGetMaxX(self.startBtn.frame) - 200, 40)];
+        _progressContainer =[[UIView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(self.gotoNextVideo.frame)+10, (LXCommonViewH - 40)/2, viewWidth - CGRectGetMaxX(self.gotoNextVideo.frame) - 200, 40)];
 //        _progressContainer.backgroundColor =[UIColor brownColor];
     }
     return _progressContainer;
